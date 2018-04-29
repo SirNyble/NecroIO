@@ -15,6 +15,9 @@ public class MainWindow {
 
     // The window handle
     private long window;
+    private int windowWidth = 1080;
+    private int windowHeight = 720;
+    private Camera camera;
     private Mesh mesh;
 
     public void run() {
@@ -47,7 +50,7 @@ public class MainWindow {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = glfwCreateWindow(1080, 720, "Necro IO", NULL, NULL);
+        window = glfwCreateWindow(windowWidth, windowHeight, "Necro IO", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -101,14 +104,16 @@ public class MainWindow {
         glClearColor(0.2f, 0.3f, 0.3f, 0.0f);
 
         float[] vertices = new float[]{
-                -0.5f,  0.5f, 0.0f,
-                -0.5f, -0.5f, 0.0f,
-                0.5f,  0.5f, 0.0f,
-                0.5f,  0.5f, 0.0f,
-                -0.5f, -0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
+                -1.0f,  0.5f, -1.0f,
+                -0.5f, -0.5f, -1.0f,
+                0.5f,  0.5f, -1.0f,
+                0.5f,  0.5f, -1.0f,
+                -0.5f, -0.5f, -1.0f,
+                0.5f, -0.5f, -1.0f,
         };
         mesh = new Mesh(vertices);
+
+        Camera camera = new Camera(windowWidth /  (float)windowHeight);
 
 
         // Run the rendering loop until the user has attempted to close
@@ -116,7 +121,7 @@ public class MainWindow {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            mesh.draw();
+            mesh.draw(camera.getProjectionMatrix());
 
             glfwSwapBuffers(window); // swap the color buffers
 

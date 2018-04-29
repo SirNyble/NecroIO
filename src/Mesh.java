@@ -25,6 +25,8 @@ public class Mesh {
             shaderProgram.createFragmentShader(Utils.readFile("./res/shaders/fragment.fs"));
             shaderProgram.link();
 
+            shaderProgram.createUniform("projectionMatrix");
+
             verticesBuffer = MemoryUtil.memAllocFloat(positions.length);
             vertexCount = positions.length / 3;
             verticesBuffer.put(positions).flip();
@@ -56,10 +58,10 @@ public class Mesh {
         return vertexCount;
     }
 
-    public void draw() {
+    public void draw(Matrix4f projectionMatrix) {
         shaderProgram.bind();
 
-        Matrix4f mat;
+        shaderProgram.setUniform("projectionMatrix", projectionMatrix);
 
         // Bind to the VAO
         glBindVertexArray(vaoId);
