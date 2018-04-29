@@ -3,6 +3,8 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
+
+import math.Matrix4f;
 import org.lwjgl.system.MemoryUtil;
 
 public class Mesh {
@@ -56,6 +58,8 @@ public class Mesh {
 
     public void draw() {
         shaderProgram.bind();
+
+        Matrix4f mat;
 
         // Bind to the VAO
         glBindVertexArray(vaoId);
