@@ -13,11 +13,16 @@ public class GameItem {
 
     private Matrix4f worldMatrix;
 
-    public GameItem(Mesh mesh) {
+    private static BasicMeshShaderProgram basicMeshShaderProgram;
+
+    public GameItem(Mesh mesh) throws Exception {
         this.mesh = mesh;
         position = new Vector3f(0, 0, 0);
         scale = new Vector3f(1, 0, 0);
         rotation = new Vector3f(0, 0, 0);
+        worldMatrix = new Matrix4f();
+
+        basicMeshShaderProgram = BasicMeshShaderProgram.getInstance();
     }
 
     public Vector3f getPosition() {
@@ -56,15 +61,24 @@ public class GameItem {
     }
 
     public void draw(Matrix4f projectionMatrix) {
-        mesh.draw(projectionMatrix);
+        if(basicMeshShaderProgram != null) {
+            basicMeshShaderProgram.bind();
+            basicMeshShaderProgram.setUniform("projectionMatrix", projectionMatrix);
+
+            mesh.draw(projectionMatrix);
+
+            basicMeshShaderProgram.unbind();
+        }
+
     }
 
     private void updateWorldMatrix() {
         worldMatrix.setIdentity();
-        worldMatrix.translate(this.position, worldMatrix).
-            rotate((float)Math.toRadians(rotation.x), new Vector3f(1.0f, 0.0f, 0.0f) )
-            .rotate((float)Math.toRadians(rotation.y), new Vector3f(0.0f, 1.0f, 0.0f) )
-            .rotate((float)Math.toRadians(rotation.z), new Vector3f(0.0f, 0.0f, 1.0f) )
-            .scale(scale);
+        worldMatrix.translate(position.x, position.y, position.z);
+//        worldMatrix.translate(this.position, worldMatrix).
+//            rotate((float)Math.toRadians(rotation.x), new Vector3f(1.0f, 0.0f, 0.0f) )
+//            .rotate((float)Math.toRadians(rotation.y), new Vector3f(0.0f, 1.0f, 0.0f) )
+//            .rotate((float)Math.toRadians(rotation.z), new Vector3f(0.0f, 0.0f, 1.0f) )
+//            .scale(scale);
     }
 }

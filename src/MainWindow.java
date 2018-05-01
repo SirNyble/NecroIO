@@ -107,16 +107,27 @@ public class MainWindow {
         glClearColor(0.2f, 0.3f, 0.3f, 0.0f);
 
         float[] vertices = new float[]{
-                -1.0f,  0.5f, -1.0f,
-                -0.5f, -0.5f, -1.0f,
-                0.5f,  0.5f, -1.0f,
-                0.5f,  0.5f, -1.0f,
-                -0.5f, -0.5f, -1.0f,
-                0.5f, -0.5f, -1.0f,
+                -0.15f,  0.15f, -1.0f,
+                -0.15f, -0.15f, -1.0f,
+                0.15f,  0.15f, -1.0f,
+                0.15f,  0.15f, -1.0f,
+                -0.15f, -0.15f, -1.0f,
+                0.15f, -0.15f, -1.0f,
         };
         mesh = new Mesh(vertices);
+        
+        try {
+            GameItem myGameItem = new GameItem(mesh);
+            myGameItem.setPosition(0.5f, 0, 0);
+            gameItems.add(myGameItem);
 
-        gameItems.add(new GameItem(mesh));
+            GameItem gameItem2 = new GameItem(mesh);
+            gameItem2.setPosition(0.5f, 0, 0);
+            gameItems.add(gameItem2);
+        } catch(Exception e) {
+            System.out.println("Could not add Game Item!");
+            System.out.println(e);
+        }
 
         Camera camera = new Camera(windowWidth /  (float)windowHeight);
 

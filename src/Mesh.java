@@ -13,20 +13,11 @@ public class Mesh {
 
     private  int vboId;
 
-    private  ShaderProgram shaderProgram;
-
     private  int vertexCount;
 
     public Mesh(float[] positions) {
         FloatBuffer verticesBuffer = null;
         try {
-            shaderProgram = new ShaderProgram();
-            shaderProgram.createVertexShader(Utils.readFile("./res/shaders/vertex.vs"));
-            shaderProgram.createFragmentShader(Utils.readFile("./res/shaders/fragment.fs"));
-            shaderProgram.link();
-
-            shaderProgram.createUniform("projectionMatrix");
-
             verticesBuffer = MemoryUtil.memAllocFloat(positions.length);
             vertexCount = positions.length / 3;
             verticesBuffer.put(positions).flip();
@@ -59,10 +50,6 @@ public class Mesh {
     }
 
     public void draw(Matrix4f projectionMatrix) {
-        shaderProgram.bind();
-
-        shaderProgram.setUniform("projectionMatrix", projectionMatrix);
-
         // Bind to the VAO
         glBindVertexArray(vaoId);
         glEnableVertexAttribArray(0);
@@ -73,8 +60,6 @@ public class Mesh {
         // Restore state
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);
-
-        shaderProgram.unbind();
     }
 
     public void cleanUp() {
