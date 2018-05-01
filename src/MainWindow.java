@@ -105,28 +105,54 @@ public class MainWindow {
         // bindings available for use.
         GL.createCapabilities();
 
-        glDisable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_TEST);
 
         // Set the clear color
         glClearColor(0.2f, 0.3f, 0.3f, 0.0f);
 
         float[] vertices = new float[]{
-                -0.15f,  0.15f, 0.0f,
-                -0.15f, -0.15f, 0.0f,
-                0.15f,  0.15f, 0.0f,
-                0.15f,  0.15f, 0.0f,
-                -0.15f, -0.15f, 0.0f,
-                0.15f, -0.15f, 0.0f,
+                // VO
+                -0.5f,  0.5f,  0.5f,
+                // V1
+                -0.5f, -0.5f,  0.5f,
+                // V2
+                0.5f, -0.5f,  0.5f,
+                // V3
+                0.5f,  0.5f,  0.5f,
+                // V4
+                -0.5f,  0.5f, -0.5f,
+                // V5
+                0.5f,  0.5f, -0.5f,
+                // V6
+                -0.5f, -0.5f, -0.5f,
+                // V7
+                0.5f, -0.5f, -0.5f,
         };
-        mesh = new Mesh(vertices);
+
+        int[] indices = new int[] {
+                // Front face
+                0, 1, 3, 3, 1, 2,
+                // Top Face
+                4, 0, 3, 5, 4, 3,
+                // Right face
+                3, 2, 7, 5, 3, 7,
+                // Left face
+                6, 1, 0, 6, 0, 4,
+                // Bottom face
+                2, 1, 6, 2, 6, 7,
+                // Back face
+                7, 6, 4, 7, 4, 5,
+        };
+
+        mesh = new Mesh(vertices, indices);
 
         try {
             BasicGameItem myBasicGameItem = new BasicGameItem(mesh);
-            myBasicGameItem.setPosition(-0.5f, 0, -5);
+            myBasicGameItem.setPosition(-0.5f, 0, -15);
             myBasicGameItem.setRotation(-45.0f, 0, 0);
             //myBasicGameItem.setRotation(0, -45.0f, 0);
             myBasicGameItem.setRotation(0, 0, -90.0f);
-            myBasicGameItem.setScale(new Vector3f(2.0f, 2.0f, 1.0f));
+            myBasicGameItem.setScale(new Vector3f(1.0f, 1.0f, 1.0f));
             basicGameItems.add(myBasicGameItem);
 
             BasicGameItem basicGameItem2 = new BasicGameItem(mesh);
