@@ -4,6 +4,7 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import java.nio.*;
+import java.util.ArrayList;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -18,6 +19,8 @@ public class MainWindow {
     private int windowWidth = 1080;
     private int windowHeight = 720;
     private Camera camera;
+
+    private ArrayList<GameItem> gameItems = new ArrayList<GameItem>();
     private Mesh mesh;
 
     public void run() {
@@ -113,6 +116,8 @@ public class MainWindow {
         };
         mesh = new Mesh(vertices);
 
+        gameItems.add(new GameItem(mesh));
+
         Camera camera = new Camera(windowWidth /  (float)windowHeight);
 
 
@@ -121,7 +126,11 @@ public class MainWindow {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            mesh.draw(camera.getProjectionMatrix());
+            //mesh.draw(camera.getProjectionMatrix());
+            for( GameItem item : gameItems) {
+                item.draw(camera.getProjectionMatrix());
+            }
+
 
             glfwSwapBuffers(window); // swap the color buffers
 
