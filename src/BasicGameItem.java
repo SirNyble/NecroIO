@@ -1,7 +1,7 @@
 import math.Matrix4f;
 import math.Vector3f;
 
-public class GameItem {
+public class BasicGameItem {
 
     private final Mesh mesh;
 
@@ -15,7 +15,7 @@ public class GameItem {
 
     private static BasicMeshShaderProgram basicMeshShaderProgram;
 
-    public GameItem(Mesh mesh) throws Exception {
+    public BasicGameItem(Mesh mesh) throws Exception {
         this.mesh = mesh;
         position = new Vector3f(0, 0, 0);
         scale = new Vector3f(1, 1, 1);

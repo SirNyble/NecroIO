@@ -22,7 +22,7 @@ public class MainWindow {
     private int windowHeight = 720;
     private Camera camera;
 
-    private ArrayList<GameItem> gameItems = new ArrayList<GameItem>();
+    private ArrayList<BasicGameItem> basicGameItems = new ArrayList<BasicGameItem>();
     private Mesh mesh;
 
     public void run() {
@@ -121,18 +121,18 @@ public class MainWindow {
         mesh = new Mesh(vertices);
 
         try {
-            GameItem myGameItem = new GameItem(mesh);
-            myGameItem.setPosition(-0.5f, 0, -5);
-            myGameItem.setRotation(-45.0f, 0, 0);
-            //myGameItem.setRotation(0, -45.0f, 0);
-            myGameItem.setRotation(0, 0, -90.0f);
-            myGameItem.setScale(new Vector3f(2.0f, 2.0f, 1.0f));
-            gameItems.add(myGameItem);
+            BasicGameItem myBasicGameItem = new BasicGameItem(mesh);
+            myBasicGameItem.setPosition(-0.5f, 0, -5);
+            myBasicGameItem.setRotation(-45.0f, 0, 0);
+            //myBasicGameItem.setRotation(0, -45.0f, 0);
+            myBasicGameItem.setRotation(0, 0, -90.0f);
+            myBasicGameItem.setScale(new Vector3f(2.0f, 2.0f, 1.0f));
+            basicGameItems.add(myBasicGameItem);
 
-            GameItem gameItem2 = new GameItem(mesh);
-            gameItem2.setPosition(0.5f, 0, 0);
-            gameItem2.setScale(new Vector3f(2.0f, 2.0f, 1.0f));
-            //gameItems.add(gameItem2);
+            BasicGameItem basicGameItem2 = new BasicGameItem(mesh);
+            basicGameItem2.setPosition(0.5f, 0, 0);
+            basicGameItem2.setScale(new Vector3f(2.0f, 2.0f, 1.0f));
+            //basicGameItems.add(basicGameItem2);
         } catch(Exception e) {
             System.out.println("Could not add Game Item!");
             System.out.println(e);
@@ -147,7 +147,7 @@ public class MainWindow {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
             //mesh.draw(camera.getProjectionMatrix());
-            for( GameItem item : gameItems) {
+            for( BasicGameItem item : basicGameItems) {
                 item.draw(camera.getProjectionMatrix());
                 Vector3f rot = item.getRotation();
                 item.setRotation(rot.x + 0.5f, rot.y + 2, rot.z + 1);
