@@ -12,6 +12,8 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import math.*;
+
 public class MainWindow {
 
     // The window handle
@@ -103,27 +105,34 @@ public class MainWindow {
         // bindings available for use.
         GL.createCapabilities();
 
+        glDisable(GL_CULL_FACE);
+
         // Set the clear color
         glClearColor(0.2f, 0.3f, 0.3f, 0.0f);
 
         float[] vertices = new float[]{
-                -0.15f,  0.15f, -1.0f,
-                -0.15f, -0.15f, -1.0f,
-                0.15f,  0.15f, -1.0f,
-                0.15f,  0.15f, -1.0f,
-                -0.15f, -0.15f, -1.0f,
-                0.15f, -0.15f, -1.0f,
+                -0.15f,  0.15f, 0.0f,
+                -0.15f, -0.15f, 0.0f,
+                0.15f,  0.15f, 0.0f,
+                0.15f,  0.15f, 0.0f,
+                -0.15f, -0.15f, 0.0f,
+                0.15f, -0.15f, 0.0f,
         };
         mesh = new Mesh(vertices);
-        
+
         try {
             GameItem myGameItem = new GameItem(mesh);
-            myGameItem.setPosition(0.5f, 0, 0);
+            myGameItem.setPosition(-0.5f, 0, -5);
+            myGameItem.setRotation(-45.0f, 0, 0);
+            //myGameItem.setRotation(0, -45.0f, 0);
+            myGameItem.setRotation(0, 0, -90.0f);
+            myGameItem.setScale(new Vector3f(2.0f, 2.0f, 1.0f));
             gameItems.add(myGameItem);
 
             GameItem gameItem2 = new GameItem(mesh);
             gameItem2.setPosition(0.5f, 0, 0);
-            gameItems.add(gameItem2);
+            gameItem2.setScale(new Vector3f(2.0f, 2.0f, 1.0f));
+            //gameItems.add(gameItem2);
         } catch(Exception e) {
             System.out.println("Could not add Game Item!");
             System.out.println(e);
@@ -140,6 +149,8 @@ public class MainWindow {
             //mesh.draw(camera.getProjectionMatrix());
             for( GameItem item : gameItems) {
                 item.draw(camera.getProjectionMatrix());
+                Vector3f rot = item.getRotation();
+                item.setRotation(rot.x + 0.5f, rot.y + 2, rot.z + 1);
             }
 
 

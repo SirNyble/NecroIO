@@ -18,7 +18,7 @@ public class GameItem {
     public GameItem(Mesh mesh) throws Exception {
         this.mesh = mesh;
         position = new Vector3f(0, 0, 0);
-        scale = new Vector3f(1, 0, 0);
+        scale = new Vector3f(1, 1, 1);
         rotation = new Vector3f(0, 0, 0);
         worldMatrix = new Matrix4f();
 
@@ -64,6 +64,7 @@ public class GameItem {
         if(basicMeshShaderProgram != null) {
             basicMeshShaderProgram.bind();
             basicMeshShaderProgram.setUniform("projectionMatrix", projectionMatrix);
+            basicMeshShaderProgram.setUniform("worldMatrix", worldMatrix);
 
             mesh.draw(projectionMatrix);
 
@@ -74,11 +75,13 @@ public class GameItem {
 
     private void updateWorldMatrix() {
         worldMatrix.setIdentity();
-        worldMatrix.translate(position.x, position.y, position.z);
-//        worldMatrix.translate(this.position, worldMatrix).
-//            rotate((float)Math.toRadians(rotation.x), new Vector3f(1.0f, 0.0f, 0.0f) )
-//            .rotate((float)Math.toRadians(rotation.y), new Vector3f(0.0f, 1.0f, 0.0f) )
-//            .rotate((float)Math.toRadians(rotation.z), new Vector3f(0.0f, 0.0f, 1.0f) )
-//            .scale(scale);
+        Matrix4f rotMat = Matrix4f.translate(-position.x, -position.y, -position.z)
+                .multiply(Matrix4f.rotate(rotation.x,1.0f, 0.0f, 0.0f ))
+                .multiply(Matrix4f.translate(position.x, position.y, position.z));
+        worldMatrix =  Matrix4f.translate(position.x, position.y, position.z)
+                .multiply(Matrix4f.rotate(rotation.x,1.0f, 0.0f, 0.0f ))
+                .multiply(Matrix4f.rotate(rotation.y,0.0f, 1.0f, 0.0f ))
+                .multiply(Matrix4f.rotate(rotation.z,0.0f, 0.0f, 1.0f ))
+                .multiply(Matrix4f.scale(scale.x, scale.y, scale.z));
     }
 }
