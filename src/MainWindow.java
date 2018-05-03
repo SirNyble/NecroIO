@@ -129,6 +129,25 @@ public class MainWindow {
                 0.5f, -0.5f, -0.5f,
         };
 
+        float[] textureCoords = new float[]{
+                // VO
+                0.0f, 0.0f,
+                // V1
+                0.0f, 0.5f,
+                // V2
+                0.5f, 0.5f,
+                // V3
+                0.5f, 0.0f,
+                // V4
+                0.0f, 0.5f,
+                // V5
+                0.5f,  0.5f,
+                // V6
+                0.5f, 0.5f,
+                // V7
+                0.5f, 0.5f
+        };
+
         int[] indices = new int[] {
                 // Front face
                 0, 1, 3, 3, 1, 2,
@@ -144,14 +163,14 @@ public class MainWindow {
                 7, 6, 4, 7, 4, 5,
         };
 
-        mesh = new Mesh(vertices, indices);
+        mesh = new Mesh(vertices, textureCoords, indices);
 
         try {
             BasicGameItem myBasicGameItem = new BasicGameItem(mesh);
             myBasicGameItem.setPosition(-0.5f, 0, -15);
-            myBasicGameItem.setRotation(-45.0f, 0, 0);
+            //myBasicGameItem.setRotation(-45.0f, 0, 0);
             //myBasicGameItem.setRotation(0, -45.0f, 0);
-            myBasicGameItem.setRotation(0, 0, -90.0f);
+           // myBasicGameItem.setRotation(0, 0, -90.0f);
             myBasicGameItem.setScale(new Vector3f(1.0f, 1.0f, 1.0f));
             basicGameItems.add(myBasicGameItem);
 
@@ -176,7 +195,7 @@ public class MainWindow {
             for( BasicGameItem item : basicGameItems) {
                 item.draw(camera.getProjectionMatrix());
                 Vector3f rot = item.getRotation();
-                item.setRotation(rot.x + 0.5f, rot.y + 2, rot.z + 1);
+                item.setRotation(rot.x , rot.y + 1, rot.z );
             }
 
 

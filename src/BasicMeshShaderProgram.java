@@ -18,6 +18,7 @@ public class BasicMeshShaderProgram extends ShaderProgram {
 
         createUniform("projectionMatrix");
         createUniform("worldMatrix");
+        createUniform("texture_sampler");
     }
 
 

@@ -1,5 +1,10 @@
+import de.matthiasmann.twl.utils.PNGDecoder;
 import math.Matrix4f;
 import math.Vector3f;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 public class BasicGameItem {
 
@@ -61,11 +66,12 @@ public class BasicGameItem {
     }
 
     public void draw(Matrix4f projectionMatrix) {
+
         if(basicMeshShaderProgram != null) {
             basicMeshShaderProgram.bind();
             basicMeshShaderProgram.setUniform("projectionMatrix", projectionMatrix);
             basicMeshShaderProgram.setUniform("worldMatrix", worldMatrix);
-
+            basicMeshShaderProgram.setUniform("texture_sampler", 0);
             mesh.draw(projectionMatrix);
 
             basicMeshShaderProgram.unbind();
