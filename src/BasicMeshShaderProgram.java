@@ -16,7 +16,7 @@ public class BasicMeshShaderProgram extends ShaderProgram {
         createFragmentShader(Utils.readFile("./res/shaders/fragment.fs"));
         link();
 
-        createUniform("projectionMatrix");
+        createUniform("viewProjectionMatrix");
         createUniform("worldMatrix");
         createUniform("texture_sampler");
     }

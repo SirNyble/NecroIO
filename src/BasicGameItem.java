@@ -69,7 +69,7 @@ public class BasicGameItem {
 
         if(basicMeshShaderProgram != null) {
             basicMeshShaderProgram.bind();
-            basicMeshShaderProgram.setUniform("projectionMatrix", projectionMatrix);
+            basicMeshShaderProgram.setUniform("viewProjectionMatrix", projectionMatrix);
             basicMeshShaderProgram.setUniform("worldMatrix", worldMatrix);
             basicMeshShaderProgram.setUniform("texture_sampler", 0);
             mesh.draw(projectionMatrix);

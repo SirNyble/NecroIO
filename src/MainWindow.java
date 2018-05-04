@@ -175,7 +175,7 @@ public class MainWindow {
             basicGameItems.add(myBasicGameItem);
 
             BasicGameItem basicGameItem2 = new BasicGameItem(mesh);
-            basicGameItem2.setPosition(0.5f, 0, 0);
+            basicGameItem2.setPosition(0.0f, 0, 0);
             basicGameItem2.setScale(new Vector3f(2.0f, 2.0f, 1.0f));
             //basicGameItems.add(basicGameItem2);
         } catch(Exception e) {
@@ -183,7 +183,8 @@ public class MainWindow {
             System.out.println(e);
         }
 
-        Camera camera = new Camera(windowWidth /  (float)windowHeight);
+        float aspectRatio = windowWidth /  (float)windowHeight;
+        Camera camera = new Camera(aspectRatio, new Vector3f(0, 0, 5), new Vector3f(33.0f, 15.0f, 0));
 
 
         // Run the rendering loop until the user has attempted to close
@@ -193,9 +194,10 @@ public class MainWindow {
 
             //mesh.draw(camera.getProjectionMatrix());
             for( BasicGameItem item : basicGameItems) {
-                item.draw(camera.getProjectionMatrix());
+                item.draw(camera.getProjectionMatrix().multiply(camera.getViewMatrix()));
                 Vector3f rot = item.getRotation();
-                item.setRotation(rot.x , rot.y + 1, rot.z );
+                //item.setRotation(rot.x , rot.y + 1, rot.z );
+                camera.moveRotation(0f, 1, 0);
             }
 
 
