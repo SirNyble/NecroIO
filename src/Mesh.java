@@ -23,45 +23,23 @@ public class Mesh {
 
     private int vboId;
     private int textureVboId;
-    private int textureId;
     private int idxVboId;
 
     private int vertexCount;
 
+    private Texture texture;
+
     public Mesh(float[] positions, float[] textureCoords, int[] indices) {
         FloatBuffer verticesBuffer = null;
         IntBuffer indicesBuffer = null;
+
         try {
             vertexCount = indices.length;
 
             verticesBuffer = memAllocFloat(positions.length);
             verticesBuffer.put(positions).flip();
 
-            InputStream in = new FileInputStream("./res/textures/minecraft.png");
-            PNGDecoder decoder = new PNGDecoder(in);
-
-            ByteBuffer buf = ByteBuffer.allocateDirect(
-                    4 * decoder.getWidth() * decoder.getHeight());
-            decoder.decode(buf, decoder.getWidth() * 4, PNGDecoder.Format.RGBA);
-            buf.flip();
-
-            // Create a new OpenGL texture
-            textureId = glGenTextures();
-// Bind the texture
-            glBindTexture(GL_TEXTURE_2D, textureId);
-
-            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-            int width = decoder.getWidth();
-            int height = decoder.getHeight();
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, decoder.getWidth(),
-                    decoder.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-            glGenerateMipmap(GL_TEXTURE_2D);
-            ///////
+            texture = new Texture("./res/textures/minecraft.png");
 
             vaoId = glGenVertexArrays();
             glBindVertexArray(vaoId);
@@ -107,12 +85,9 @@ public class Mesh {
     }
 
     public void draw(Matrix4f projectionMatrix) {
-
         // Activate first texture unit
         glActiveTexture(GL_TEXTURE0);
-// Bind the texture
-        glBindTexture(GL_TEXTURE_2D, textureId);
-
+        texture.bindTexture();
 
         // Bind to the VAO
         glBindVertexArray(vaoId);
